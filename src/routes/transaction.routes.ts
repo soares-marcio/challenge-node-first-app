@@ -16,14 +16,16 @@ transactionRouter.get('/', (request, response) => {
       balance,
     });
   } catch (err) {
-    return response.status(400).json({ error: err.message });
+    return response.status(400).json({ error: err });
   }
 });
 
 transactionRouter.post('/', (request, response) => {
   try {
     const { title, value, type } = request.body;
-    const createTransaction = new CreateTransactionService(transactionsRepository);
+    const createTransaction = new CreateTransactionService(
+      transactionsRepository,
+    );
     const transaction = createTransaction.execute({ title, value, type });
     return response.json(transaction);
   } catch (err) {
